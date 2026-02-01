@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoHabit</title>
+
+  <style>
+    :root{
+      --bg:#0b0f0c;
+      --card:#111827;
+      --card2:#0f172a;
+      --border:#1f2937;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --green:#22c55e;
+      --green2:#16a34a;
+      --danger:#ef4444;
+      --shadow: 0 18px 40px rgba(0,0,0,.55);
+      --r: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(34,197,94,.15), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 14px 36px;
+    }
+
+    /* ===== NAV ===== */
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 16px;
+      background: rgba(17,24,39,.7);
+      border:1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+    .brand .dot{
+      width:10px;height:10px;border-radius:999px;background:var(--green);
+      box-shadow: 0 0 0 4px rgba(34,197,94,.15);
+    }
+    .spacer{ flex:1; }
+    .pill{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--border);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(2,6,23,.45);
+    }
+    .btn{
+      border:none;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      color:#052e16;
+      font-weight: 800;
+      padding:10px 14px;
+      border-radius: 12px;
+      cursor:pointer;
+      transition: transform .05s ease, filter .15s ease;
+    }
+    .btn:hover{ filter: brightness(1.05); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.ghost{
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-weight: 700;
+    }
+    .btn.danger{
+      background: #7f1d1d;
+      color:#fecaca;
+      border: 1px solid #991b1b;
+    }
+
+    /* ===== LAYOUT ===== */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 820px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: rgba(17,24,39,.78);
+      border:1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1,h2,h3{ margin:0; }
+    .title{
+      font-size: 22px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .sub{
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    /* ===== AUTH ===== */
+    .field{
+      display:grid;
+      gap:8px;
+      margin-top: 10px;
+    }
+    .label{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .input{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.7);
+      color: var(--text);
+      outline: none;
+    }
+    .input:focus{
+      border-color: rgba(34,197,94,.9);
+      box-shadow: 0 0 0 4px rgba(34,197,94,.12);
+    }
+
+    .msg{
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--danger);
+      min-height: 18px;
+    }
+
+    /* ===== HABITS ===== */
+    .habit{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.45);
+      cursor:pointer;
+      user-select:none;
+      transition: border-color .15s ease, transform .05s ease;
+      margin-top: 10px;
+    }
+    .habit:hover{ border-color: rgba(34,197,94,.7); }
+    .habit:active{ transform: translateY(1px); }
+    .habit input{
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+      cursor:pointer;
+    }
+    .habit .t{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .habit .t b{ font-size: 14px; }
+    .habit .t span{ font-size: 12px; color: var(--muted); }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top: 14px;
+      flex-wrap:wrap;
+    }
+    .actions .btn{ flex:1; }
+
+    /* ===== RESULT ===== */
+    .result{
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(34,197,94,.35);
+      background: rgba(2,44,34,.65);
+      display:none;
+    }
+    .result ul{ margin: 8px 0 0; padding-left: 18px; }
+    .result li{ margin: 6px 0; }
+    .ok{
+      color: #86efac;
+      font-weight: 700;
+    }
+
+    /* ===== RIGHT PANEL ===== */
+    .mini{
+      display:grid;
+      gap:10px;
+    }
+    .stat{
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.45);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .stat .k{ color: var(--muted); font-size: 12px; }
+    .stat .v{ font-size: 18px; font-weight: 900; margin-top: 2px; }
+    .hint{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>EcoHabit</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="pill" id="userPill">Гость</div>
+      <button class="btn danger" id="logoutBtn" style="display:none;">Выйти</button>
+    </div>
+
+    <!-- AUTH CARD -->
+    <div class="card" id="authCard">
+      <div class="title">Вход / Регистрация</div>
+      <div class="sub"></div>
+
+      <div class="field">
+        <div class="label">Email</div>
+        <input class="input" id="email" placeholder="example@mail.com" />
+      </div>
+
+      <div class="field">
+        <div class="label">Пароль</div>
+        <input class="input" id="password" type="password" placeholder="минимум 4 символа" />
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="loginBtn">Войти / Зарегистрироваться</button>
+        <button class="btn ghost" id="demoBtn">Демо-вход</button>
+      </div>
+
+      <div class="msg" id="authMsg"></div>
+    </div>
+
+    <!-- APP -->
+    <div class="grid" id="appGrid" style="display:none;">
+      <div class="card">
+        <div class="title">Сегодняшние привычки</div>
+        <div class="sub">Отметь действия — и увидишь экологический эффект</div>
+
+        <label class="habit" for="water">
+          <input type="checkbox" id="water" />
+          <div class="t">
+            <b>💧 Сэкономил воду</b>
+            <span>пример: закрывал кран, короткий душ</span>
+          </div>
+        </label>
+
+        <label class="habit" for="plastic">
+          <input type="checkbox" id="plastic" />
+          <div class="t">
+            <b>🧴 Отказался от пластика</b>
+            <span>многоразовая бутылка/сумка</span>
+          </div>
+        </label>
+
+        <label class="habit" for="recycle">
+          <input type="checkbox" id="recycle" />
+          <div class="t">
+            <b>♻️ Сортировал мусор</b>
+            <span>бумага/пластик/стекло отдельно</span>
+          </div>
+        </label>
+
+        <label class="habit" for="energy">
+          <input type="checkbox" id="energy" />
+          <div class="t">
+            <b>⚡ Экономил электроэнергию</b>
+            <span>выключал свет, заряжал рационально</span>
+          </div>
+        </label>
+
+        <div class="actions">
+          <button class="btn" id="calcBtn">Показать эффект</button>
+          <button class="btn ghost" id="resetBtn">Сбросить</button>
+        </div>
+<a href="stats.html" class="btn ghost"
+   style="margin-top:12px; display:inline-block; text-decoration:none;">
+  📊 Статистика и топ-лист
+</a>
+
+        <div class="msg" id="appMsg"></div>
+        <div class="result" id="result"></div>
+      </div>
+
+      <div class="card mini">
+        <div class="stat">
+          <div class="k">Вода (оценка)</div>
+          <div class="v" id="statWater">0 л</div>
+        </div>
+        <div class="stat">
+          <div class="k">Пластик</div>
+          <div class="v" id="statPlastic">0 шт</div>
+        </div>
+        <div class="stat">
+          <div class="k">Энергия</div>
+          <div class="v" id="statEnergy">0 кВт⋅ч</div>
+        </div>
+        <div class="stat">
+          <div class="k">Сортировка</div>
+          <div class="v" id="statRecycle">Нет</div>
+        </div>
+
+        <div class="hint">
+          <b class="ok"></b><br/>
+        
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- helpers ---
+    const $ = (id) => document.getElementById(id);
+
+    const safeParse = (s, fallback) => {
+      try { return JSON.parse(s); } catch { return fallback; }
+    };
+
+    const setText = (id, text) => { const el = $(id); if (el) el.textContent = text || ""; };
+    const show = (el, on) => { if (el) el.style.display = on ? "" : "none"; };
+
+    // --- auth storage ---
+    const USERS_KEY = "ecohabit_users";
+    const CUR_KEY = "ecohabit_current_user";
+
+    function getUsers() {
+      return safeParse(localStorage.getItem(USERS_KEY) || "{}", {});
+    }
+    function saveUsers(users) {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+    function getCurrentUser() {
+      return localStorage.getItem(CUR_KEY) || "";
+    }
+    function setCurrentUser(email) {
+      localStorage.setItem(CUR_KEY, email);
+    }
+    function clearCurrentUser() {
+      localStorage.removeItem(CUR_KEY);
+    }
+
+    // --- UI states ---
+    function renderAuthState() {
+      const email = getCurrentUser();
+      const loggedIn = Boolean(email);
+
+      show($("authCard"), !loggedIn);
+      show($("appGrid"), loggedIn);
+      show($("logoutBtn"), loggedIn);
+
+      $("userPill").textContent = loggedIn ? email : "Гость";
+      setText("authMsg", "");
+      setText("appMsg", "");
+      hideResult();
+    }
+
+    function hideResult() {
+      const r = $("result");
+      if (r) { r.style.display = "none"; r.innerHTML = ""; }
+    }
+
+    function resetChecks() {
+      ["water","plastic","recycle","energy"].forEach(id => {
+        const el = $(id);
+        if (el) el.checked = false;
+      });
+      updateStats();
+      hideResult();
+      setText("appMsg", "");
+    }
+
+    // --- logic ---
+    function loginOrSignup() {
+      setText("authMsg", "");
+
+      const email = ($("email").value || "").trim().toLowerCase();
+      const pass  = ($("password").value || "").trim();
+
+      if (!email || !pass) { setText("authMsg", "Введите email и пароль"); return; }
+      if (pass.length < 4) { setText("authMsg", "Пароль слишком короткий (мин. 4)"); return; }
+      if (!email.includes("@")) { setText("authMsg", "Email выглядит неверно"); return; }
+
+      const users = getUsers();
+
+      if (!users[email]) {
+        // регистрация
+        users[email] = pass;
+        saveUsers(users);
+      }
+
+      if (users[email] !== pass) {
+        setText("authMsg", "Неверный пароль");
+        return;
+      }
+
+      setCurrentUser(email);
+      renderAuthState();
+    }
+
+    function demoLogin() {
+      const users = getUsers();
+      const email = "demo@ecohabit.kz";
+      if (!users[email]) { users[email] = "demo"; saveUsers(users); }
+      setCurrentUser(email);
+      renderAuthState();
+    }
+
+    function logout() {
+      clearCurrentUser();
+      renderAuthState();
+    }
+
+    function updateStats() {
+      const w = $("water")?.checked;
+      const p = $("plastic")?.checked;
+      const r = $("recycle")?.checked;
+      const e = $("energy")?.checked;
+
+      $("statWater").textContent = (w ? 6 : 0) + " л";
+      $("statPlastic").textContent = (p ? 1 : 0) + " шт";
+      $("statEnergy").textContent = (e ? 0.5 : 0) + " кВт⋅ч";
+      $("statRecycle").textContent = r ? "Да" : "Нет";
+    }
+
+    function calculate() {
+      setText("appMsg", "");
+      const w = $("water")?.checked;
+      const p = $("plastic")?.checked;
+      const r = $("recycle")?.checked;
+      const e = $("energy")?.checked;
+
+      if (!w && !p && !r && !e) {
+        setText("appMsg", "Отметь хотя бы одну привычку 🙂");
+        hideResult();
+        return;
+      }
+
+      let html = "<h3>🌍 Твой эффект сегодня</h3><ul>";
+      if (w) html += "<li>💧 −6 литров воды</li>";
+      if (p) html += "<li>🧴 −1 пластиковая бутылка</li>";
+      if (r) html += "<li>♻️ Сортировка — меньше отходов на свалках</li>";
+      if (e) html += "<li>⚡ −0.5 кВт⋅ч энергии</li>";
+      html += "</ul><p><b class='ok'>Ты реально помогаешь планете 💚</b></p>";
+
+      const res = $("result");
+      res.innerHTML = html;
+      res.style.display = "block";
+    }
+
+    // --- init safely after DOM loaded ---
+    window.addEventListener("DOMContentLoaded", () => {
+      // wire buttons
+      $("loginBtn").addEventListener("click", loginOrSignup);
+      $("demoBtn").addEventListener("click", demoLogin);
+      $("logoutBtn").addEventListener("click", logout);
+
+      $("calcBtn").addEventListener("click", calculate);
+      $("resetBtn").addEventListener("click", resetChecks);
+
+      // update stats live
+      ["water","plastic","recycle","energy"].forEach(id => {
+        $(id).addEventListener("change", updateStats);
+      });
+
+      // initial render
+      renderAuthState();
+      updateStats();
+    });
+  </script>
+</body>
+</html>
