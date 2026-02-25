@@ -9,36 +9,35 @@
     :root{
       --bg:#0b0f0c;
       --card:#111827;
-      --card2:#0f172a;
       --border:#1f2937;
       --text:#e5e7eb;
       --muted:#9ca3af;
       --green:#22c55e;
       --green2:#16a34a;
       --danger:#ef4444;
-      --shadow: 0 18px 40px rgba(0,0,0,.55);
-      --r: 18px;
+      --shadow:0 18px 40px rgba(0,0,0,.55);
+      --r:18px;
     }
-
     *{ box-sizing:border-box; }
 
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 20% 0%, rgba(34,197,94,.15), transparent 60%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(34,197,94,.15), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
+        var(--bg);
       color:var(--text);
       min-height:100vh;
     }
 
     .wrap{
-      max-width: 900px;
+      max-width: 1060px;
       margin: 0 auto;
-      padding: 24px 14px 36px;
+      padding: 18px 14px 96px;
     }
 
-    /* ===== NAV ===== */
+    /* ===== Topbar ===== */
     .topbar{
       display:flex;
       align-items:center;
@@ -49,13 +48,17 @@
       border-radius: var(--r);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
+      position: sticky;
+      top: 10px;
+      z-index: 20;
     }
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
-      font-weight: 800;
+      font-weight: 950;
       letter-spacing: .3px;
+      white-space: nowrap;
     }
     .brand .dot{
       width:10px;height:10px;border-radius:999px;background:var(--green);
@@ -69,16 +72,24 @@
       padding:6px 10px;
       border-radius:999px;
       background: rgba(2,6,23,.45);
+      max-width: 48vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+
+    button, a{ -webkit-tap-highlight-color: transparent; }
+
     .btn{
       border:none;
       background: linear-gradient(135deg, var(--green), var(--green2));
       color:#052e16;
-      font-weight: 800;
+      font-weight: 950;
       padding:10px 14px;
       border-radius: 12px;
       cursor:pointer;
       transition: transform .05s ease, filter .15s ease;
+      user-select:none;
     }
     .btn:hover{ filter: brightness(1.05); }
     .btn:active{ transform: translateY(1px); }
@@ -86,25 +97,16 @@
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
-      font-weight: 700;
+      font-weight: 900;
     }
     .btn.danger{
       background: #7f1d1d;
       color:#fecaca;
       border: 1px solid #991b1b;
+      font-weight: 900;
     }
 
-    /* ===== LAYOUT ===== */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    @media (max-width: 820px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
+    /* ===== Cards & text ===== */
     .card{
       background: rgba(17,24,39,.78);
       border:1px solid var(--border);
@@ -113,20 +115,26 @@
       padding: 16px;
       backdrop-filter: blur(10px);
     }
-
-    h1,h2,h3{ margin:0; }
     .title{
       font-size: 22px;
       line-height: 1.2;
-      margin-bottom: 6px;
+      margin: 0 0 6px;
+      font-weight: 950;
     }
     .sub{
       color: var(--muted);
       font-size: 14px;
-      margin-bottom: 10px;
+      margin: 0 0 10px;
+      line-height: 1.35;
+    }
+    .msg{
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--danger);
+      min-height: 18px;
     }
 
-    /* ===== AUTH ===== */
+    /* ===== Auth ===== */
     .field{
       display:grid;
       gap:8px;
@@ -135,6 +143,8 @@
     .label{
       font-size: 12px;
       color: var(--muted);
+      font-weight: 900;
+      letter-spacing: .2px;
     }
     .input{
       width:100%;
@@ -150,17 +160,60 @@
       box-shadow: 0 0 0 4px rgba(34,197,94,.12);
     }
 
-    .msg{
+    /* ===== Tabs ===== */
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
       margin-top: 10px;
-      font-size: 13px;
-      color: var(--danger);
-      min-height: 18px;
+    }
+    .tabhint{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:6px;
+      line-height:1.35;
     }
 
-    /* ===== HABITS ===== */
+    /* ===== Layout ===== */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 16px;
+      margin-top: 16px;
+      align-items: start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .mini{ display:grid; gap:10px; }
+
+    .screen{ display:none; margin-top: 16px; }
+    .screen.active{ display:block; }
+
+    /* ===== Habits ===== */
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end;
+      margin-top: 10px;
+    }
+    .dateBox{
+      flex: 1;
+      min-width: 220px;
+    }
+    .dateBox .input{ padding: 10px 12px; }
+    .hintline{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.35;
+    }
+
     .habit{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       gap:12px;
       padding: 12px;
       border-radius: 16px;
@@ -176,16 +229,19 @@
     .habit input{
       width: 20px;
       height: 20px;
+      margin-top: 2px;
       accent-color: var(--green);
       cursor:pointer;
+      flex: 0 0 auto;
     }
     .habit .t{
       display:flex;
       flex-direction:column;
-      gap:2px;
+      gap:4px;
+      min-width: 0;
     }
     .habit .t b{ font-size: 14px; }
-    .habit .t span{ font-size: 12px; color: var(--muted); }
+    .habit .t span{ font-size: 12px; color: var(--muted); line-height: 1.35; }
 
     .actions{
       display:flex;
@@ -195,7 +251,6 @@
     }
     .actions .btn{ flex:1; }
 
-    /* ===== RESULT ===== */
     .result{
       margin-top: 14px;
       padding: 14px;
@@ -206,28 +261,174 @@
     }
     .result ul{ margin: 8px 0 0; padding-left: 18px; }
     .result li{ margin: 6px 0; }
-    .ok{
-      color: #86efac;
-      font-weight: 700;
-    }
+    .ok{ color: #86efac; font-weight: 950; }
 
-    /* ===== RIGHT PANEL ===== */
-    .mini{
-      display:grid;
-      gap:10px;
-    }
+    /* ===== Right panel blocks ===== */
     .stat{
       border:1px solid var(--border);
       background: rgba(2,6,23,.45);
       border-radius: 16px;
       padding: 12px;
     }
-    .stat .k{ color: var(--muted); font-size: 12px; }
-    .stat .v{ font-size: 18px; font-weight: 900; margin-top: 2px; }
-    .hint{
+    .stat .k{ color: var(--muted); font-size: 12px; font-weight: 900; }
+    .stat .v{ font-size: 18px; font-weight: 950; margin-top: 2px; }
+
+    .chip{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.55);
       color: var(--muted);
+      font-size:12px;
+      font-weight: 900;
+    }
+    .tipbox{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(34,197,94,.25);
+      background: rgba(2,44,34,.45);
+      color: #bbf7d0;
+      line-height: 1.45;
+    }
+    .fact{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.45);
+      line-height: 1.45;
+      color: var(--text);
+    }
+    .fact b{ color:#86efac; }
+
+    /* ===== 7 days table ===== */
+    .tableWrap{
+      margin-top: 12px;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(2,6,23,.35);
+    }
+    .trow{
+      display:grid;
+      grid-template-columns: 120px 1fr 1fr 1fr 1fr;
+      gap: 8px;
+      padding: 10px 12px;
+      align-items:center;
+      border-top: 1px solid rgba(31,41,55,.7);
       font-size: 13px;
-      line-height: 1.35;
+    }
+    .trow.head{
+      background: rgba(17,24,39,.65);
+      border-top: none;
+      font-weight: 950;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .2px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 34px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.55);
+      font-weight: 950;
+    }
+    .yes{ border-color: rgba(34,197,94,.55); }
+    .no{ opacity:.7; }
+
+    /* ===== Leaderboard ===== */
+    ol.lb{
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+    .lb li{
+      margin: 8px 0;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.45);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap: wrap;
+    }
+    .lb small{
+      color: var(--muted);
+      font-weight: 900;
+    }
+    .medal{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.55);
+      font-weight: 950;
+    }
+
+    /* ===== Badges list ===== */
+    .badgeGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 520px){
+      .badgeGrid{ grid-template-columns: 1fr; }
+    }
+    .badgeCard{
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.45);
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .badgeIcon{
+      width:36px;height:36px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.65);
+      flex: 0 0 auto;
+      font-size:18px;
+    }
+    .badgeCard .name{ font-weight: 950; }
+    .badgeCard .desc{ color:var(--muted); font-size:12px; line-height:1.35; margin-top:4px; }
+    .locked{ opacity:.55; }
+
+    /* ===== Mobile bottom bar ===== */
+    .mobileBar{
+      display:none;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      padding: 10px 12px;
+      background: rgba(2,6,23,.85);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      z-index: 50;
+    }
+    .mobileBar .actions{ margin:0; }
+    @media (max-width: 520px){
+      .mobileBar{ display:block; }
+      .desktopActions{ display:none; }
+      .wrap{ padding: 14px 12px 106px; }
+      .topbar{ padding: 12px 12px; gap:10px; }
+      .btn{ padding: 10px 12px; border-radius: 12px; }
+      .title{ font-size: 20px; }
+      .trow{ grid-template-columns: 92px 1fr 1fr 1fr 1fr; font-size: 12px; padding: 10px; }
+      .dateBox{ min-width: 100%; }
     }
   </style>
 </head>
@@ -245,10 +446,13 @@
       <button class="btn danger" id="logoutBtn" style="display:none;">Выйти</button>
     </div>
 
-    <!-- AUTH CARD -->
+    <!-- AUTH -->
     <div class="card" id="authCard">
       <div class="title">Вход / Регистрация</div>
-      <div class="sub"></div>
+      <div class="sub">
+         <br>
+       
+      </div>
 
       <div class="field">
         <div class="label">Email</div>
@@ -268,241 +472,958 @@
       <div class="msg" id="authMsg"></div>
     </div>
 
-    <!-- APP -->
-    <div class="grid" id="appGrid" style="display:none;">
-      <div class="card">
-        <div class="title">Сегодняшние привычки</div>
-        <div class="sub">Отметь действия — и увидишь экологический эффект</div>
+    <!-- APP ROOT -->
+    <div id="appRoot" style="display:none;">
+      <div class="tabs">
+        <button class="btn" id="tabHabits">✅ Привычки</button>
+        <button class="btn ghost" id="tabStats">📊 Статистика</button>
+        <button class="btn ghost" id="tabForecast">🔮 Прогноз</button>
+        <button class="btn ghost" id="tabGoals">🎯 Цели</button>
+        <button class="btn ghost" id="tabBadges">🏅 Достижения</button>
+      </div>
+      <div class="tabhint"> </div>
 
-        <label class="habit" for="water">
-          <input type="checkbox" id="water" />
-          <div class="t">
-            <b>💧 Сэкономил воду</b>
-            <span>пример: закрывал кран, короткий душ</span>
+      <!-- SCREEN: HABITS -->
+      <div class="screen active" id="screenHabits">
+        <div class="grid">
+          <!-- Left -->
+          <div class="card">
+            <div class="title">Привычки и эффект</div>
+            <div class="sub">Экопросвещение встроено в действия: у каждой привычки есть “почему это важно”.</div>
+
+            <div class="row">
+              <div class="dateBox">
+                <div class="label">Дата</div>
+                <input class="input" id="dayInput" type="date" />
+                <div class="hintline">Можно отметить прошлый день. Всё сохраняется по датам.</div>
+              </div>
+              <button class="btn ghost" id="todayBtn">Сегодня</button>
+            </div>
+
+            <label class="habit" for="water">
+              <input type="checkbox" id="water" />
+              <div class="t">
+                <b>💧 Сэкономил воду</b>
+                <span><b>Почему важно:</b> экономия 5–6 л в день = более 2000 л в год на человека.</span>
+              </div>
+            </label>
+
+            <label class="habit" for="plastic">
+              <input type="checkbox" id="plastic" />
+              <div class="t">
+                <b>🧴 Отказался от пластика</b>
+                <span><b>Почему важно:</b> пластиковая бутылка может разлагаться до 450 лет.</span>
+              </div>
+            </label>
+
+            <label class="habit" for="recycle">
+              <input type="checkbox" id="recycle" />
+              <div class="t">
+                <b>♻️ Сортировал мусор</b>
+                <span><b>Почему важно:</b> переработка снижает нагрузку на полигоны и экономит ресурсы.</span>
+              </div>
+            </label>
+
+            <label class="habit" for="energy">
+              <input type="checkbox" id="energy" />
+              <div class="t">
+                <b>⚡ Экономил электроэнергию</b>
+                <span><b>Почему важно:</b> экономия энергии = меньше выбросов CO₂ от электростанций.</span>
+              </div>
+            </label>
+
+            <div class="actions desktopActions">
+              <button class="btn" id="saveBtn">Сохранить и показать эффект</button>
+              <button class="btn ghost" id="resetBtn">Сбросить</button>
+            </div>
+
+            <div class="msg" id="appMsg"></div>
+            <div class="result" id="result"></div>
           </div>
-        </label>
 
-        <label class="habit" for="plastic">
-          <input type="checkbox" id="plastic" />
-          <div class="t">
-            <b>🧴 Отказался от пластика</b>
-            <span>многоразовая бутылка/сумка</span>
+          <!-- Right -->
+          <div class="mini">
+            <div class="card">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                <div>
+                  <div class="title" style="font-size:18px; margin-bottom:4px;">Мотивация</div>
+                  <div class="sub" style="margin:0;">Совет дня + мини-цели</div>
+                </div>
+                <span class="chip">🌱 EcoTip</span>
+              </div>
+
+              <div class="tipbox" id="tipBox"></div>
+
+              <div class="fact">
+                <b>Мини-цель недели:</b> отметь минимум <b>8 действий</b> за 7 дней.<br>
+                Это помогает закрепить поведение через повторение.
+              </div>
+
+              <div class="actions">
+                <button class="btn ghost" id="goStatsBtn">Перейти к статистике →</button>
+                <button class="btn ghost" id="goGoalsBtn">🎯 Цели →</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="title" style="font-size:18px;">Эффект по выбранной дате</div>
+              <div class="sub"> </div>
+
+              <div class="stat">
+                <div class="k">💧 Вода (оценка)</div>
+                <div class="v" id="statWater">0 л</div>
+              </div>
+              <div class="stat">
+                <div class="k">🧴 Пластик</div>
+                <div class="v" id="statPlastic">0 шт</div>
+              </div>
+              <div class="stat">
+                <div class="k">⚡ Энергия</div>
+                <div class="v" id="statEnergy">0 кВт⋅ч</div>
+              </div>
+              <div class="stat">
+                <div class="k">♻️ Сортировка</div>
+                <div class="v" id="statRecycle">Нет</div>
+              </div>
+            </div>
           </div>
-        </label>
-
-        <label class="habit" for="recycle">
-          <input type="checkbox" id="recycle" />
-          <div class="t">
-            <b>♻️ Сортировал мусор</b>
-            <span>бумага/пластик/стекло отдельно</span>
-          </div>
-        </label>
-
-        <label class="habit" for="energy">
-          <input type="checkbox" id="energy" />
-          <div class="t">
-            <b>⚡ Экономил электроэнергию</b>
-            <span>выключал свет, заряжал рационально</span>
-          </div>
-        </label>
-
-        <div class="actions">
-          <button class="btn" id="calcBtn">Показать эффект</button>
-          <button class="btn ghost" id="resetBtn">Сбросить</button>
         </div>
-<a href="stats.html" class="btn ghost"
-   style="margin-top:12px; display:inline-block; text-decoration:none;">
-  📊 Статистика и топ-лист
-</a>
-
-        <div class="msg" id="appMsg"></div>
-        <div class="result" id="result"></div>
       </div>
 
-      <div class="card mini">
-        <div class="stat">
-          <div class="k">Вода (оценка)</div>
-          <div class="v" id="statWater">0 л</div>
-        </div>
-        <div class="stat">
-          <div class="k">Пластик</div>
-          <div class="v" id="statPlastic">0 шт</div>
-        </div>
-        <div class="stat">
-          <div class="k">Энергия</div>
-          <div class="v" id="statEnergy">0 кВт⋅ч</div>
-        </div>
-        <div class="stat">
-          <div class="k">Сортировка</div>
-          <div class="v" id="statRecycle">Нет</div>
-        </div>
+      <!-- SCREEN: STATS -->
+      <div class="screen" id="screenStats">
+        <div class="grid">
+          <div class="card">
+            <div class="title">📊 Результат за 7 дней</div>
+            <div class="sub">Таблица отметок за последние 7 дней (включая сегодня).</div>
 
-        <div class="hint">
-          <b class="ok"></b><br/>
-        
+            <div class="stat">
+              <div class="k">Итоги за 7 дней</div>
+              <div class="v" id="weekSummary">—</div>
+              <div class="sub" id="weekHint" style="margin:6px 0 0;"></div>
+            </div>
+
+            <div class="tableWrap" id="weekTable">
+              <div class="trow head">
+                <div>Дата</div><div>💧</div><div>🧴</div><div>♻️</div><div>⚡</div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn ghost" id="backHabitsBtn">← Назад к привычкам</button>
+              <button class="btn ghost" id="goForecastBtn">🔮 Прогноз →</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="card">
+              <div class="title" style="font-size:18px;">🏆 Топ-лист за 7 дней</div>
+              <div class="sub">Соревнование мотивирует менять поведение (демо для хакатона).</div>
+              <ol class="lb" id="leaderboard"></ol>
+              <div class="sub" style="margin-top:10px;">
+                Баллы: 💧+1 • 🧴+1 • ♻️+1 • ⚡+1 (за каждый день, за 7 дней)
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="title" style="font-size:18px;">🧠 Рекомендации</div>
+              <div class="sub">Подсказываем, как улучшить результат.</div>
+              <div class="fact" id="recommendBox" style="margin-top:0;"></div>
+              <div class="actions">
+                <button class="btn ghost" id="goBadgesBtn">🏅 Достижения →</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- SCREEN: FORECAST -->
+      <div class="screen" id="screenForecast">
+        <div class="grid">
+          <div class="card">
+            <div class="title">🔮 Анализ будущего</div>
+            <div class="sub">Прогноз построен на основе твоей активности за последние 7 дней.</div>
+
+            <div id="forecastBox" class="fact" style="margin-top:10px;"></div>
+
+            <div class="fact">
+              <b>Зачем это нужно:</b> когда человек видит накопительный эффект на месяц/год, ему легче удержать привычку.
+            </div>
+
+            <div class="actions">
+              <button class="btn ghost" id="backToStatsBtn">← К статистике</button>
+              <button class="btn ghost" id="goGoalsBtn2">🎯 Цели →</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="card">
+              <div class="title" style="font-size:18px;">📌 Короткий вывод</div>
+              <div class="sub">Сводка в одну фразу.</div>
+              <div class="fact" id="forecastSummary" style="margin-top:0;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN: GOALS -->
+      <div class="screen" id="screenGoals">
+        <div class="grid">
+          <div class="card">
+            <div class="title">🎯 Цели и челленджи</div>
+            <div class="sub">Цели помогают закрепить экологические привычки и повышают вовлечённость.</div>
+
+            <div class="fact" id="goalBox" style="margin-top:0;">Загрузка целей…</div>
+
+            <div class="fact">
+              <b>Челлендж недели:</b><br>
+              1) 4+ дня активных привычек<br>
+              2) минимум 2 дня сортировки ♻️<br>
+              3) минимум 2 дня без пластика 🧴
+            </div>
+
+            <div class="actions">
+              <button class="btn ghost" id="goHabitsBtn2">← К привычкам</button>
+              <button class="btn ghost" id="goBadgesBtn2">🏅 Достижения →</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="card">
+              <div class="title" style="font-size:18px;">📍 Прогресс</div>
+              <div class="sub">Сколько уже выполнено за последние 7 дней.</div>
+              <div class="stat">
+                <div class="k">Активные дни</div>
+                <div class="v" id="activeDaysStat">—</div>
+              </div>
+              <div class="stat">
+                <div class="k">Сортировка (дней)</div>
+                <div class="v" id="recycleDaysStat">—</div>
+              </div>
+              <div class="stat">
+                <div class="k">Без пластика (дней)</div>
+                <div class="v" id="plasticDaysStat">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN: BADGES -->
+      <div class="screen" id="screenBadges">
+        <div class="grid">
+          <div class="card">
+            <div class="title">🏅 Достижения</div>
+            <div class="sub">Награды за регулярность — это удержание пользователя и изменение поведения.</div>
+
+            <div class="badgeGrid" id="badgesGrid"></div>
+
+            <div class="actions">
+              <button class="btn ghost" id="goStatsBtn2">← К статистике</button>
+              <button class="btn ghost" id="goHabitsBtn3">✅ К привычкам</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="card">
+              <div class="title" style="font-size:18px;">🎖 Твой статус</div>
+              <div class="sub">Коротко о прогрессе.</div>
+              <div class="fact" id="statusBox" style="margin-top:0;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /appRoot -->
+
+  </div><!-- /wrap -->
+
+  <!-- Mobile bottom bar -->
+  <div class="mobileBar" id="mobileBar" style="display:none;">
+    <div class="actions">
+      <button class="btn" id="saveBtnM">Сохранить</button>
+      <button class="btn ghost" id="resetBtnM">Сброс</button>
     </div>
-
   </div>
 
   <script>
-    // --- helpers ---
+    // ===== Helpers =====
     const $ = (id) => document.getElementById(id);
-
-    const safeParse = (s, fallback) => {
-      try { return JSON.parse(s); } catch { return fallback; }
-    };
-
+    const safeParse = (s, fallback) => { try { return JSON.parse(s); } catch { return fallback; } };
     const setText = (id, text) => { const el = $(id); if (el) el.textContent = text || ""; };
     const show = (el, on) => { if (el) el.style.display = on ? "" : "none"; };
 
-    // --- auth storage ---
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function todayISO(){
+      const d = new Date();
+      return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    }
+    function addDaysISO(iso, delta){
+      const d = new Date(iso + "T00:00:00");
+      d.setDate(d.getDate() + delta);
+      return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    }
+
+    // ===== Storage keys =====
     const USERS_KEY = "ecohabit_users";
-    const CUR_KEY = "ecohabit_current_user";
+    const CUR_KEY   = "ecohabit_current_user";
+    const SEL_DAY_KEY = "ecohabit_selected_day";
 
-    function getUsers() {
-      return safeParse(localStorage.getItem(USERS_KEY) || "{}", {});
+    function getUsers(){ return safeParse(localStorage.getItem(USERS_KEY) || "{}", {}); }
+    function saveUsers(users){ localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+    function getCurrentUser(){ return localStorage.getItem(CUR_KEY) || ""; }
+    function setCurrentUser(email){ localStorage.setItem(CUR_KEY, email); }
+    function clearCurrentUser(){ localStorage.removeItem(CUR_KEY); }
+
+    function entriesKey(email){ return `ecohabit_entries__${email}`; }
+    function getEntries(email){ return safeParse(localStorage.getItem(entriesKey(email)) || "{}", {}); }
+    function saveEntries(email, entries){ localStorage.setItem(entriesKey(email), JSON.stringify(entries)); }
+
+    function getSelectedDay(){ return ($("dayInput")?.value || todayISO()); }
+    function setSelectedDay(iso){ const inp = $("dayInput"); if (inp) inp.value = iso; }
+
+    function readChecks(){
+      return {
+        water: Boolean($("water")?.checked),
+        plastic: Boolean($("plastic")?.checked),
+        recycle: Boolean($("recycle")?.checked),
+        energy: Boolean($("energy")?.checked),
+      };
     }
-    function saveUsers(users) {
-      localStorage.setItem(USERS_KEY, JSON.stringify(users));
-    }
-    function getCurrentUser() {
-      return localStorage.getItem(CUR_KEY) || "";
-    }
-    function setCurrentUser(email) {
-      localStorage.setItem(CUR_KEY, email);
-    }
-    function clearCurrentUser() {
-      localStorage.removeItem(CUR_KEY);
+    function writeChecks(data){
+      if ($("water")) $("water").checked = Boolean(data?.water);
+      if ($("plastic")) $("plastic").checked = Boolean(data?.plastic);
+      if ($("recycle")) $("recycle").checked = Boolean(data?.recycle);
+      if ($("energy")) $("energy").checked = Boolean(data?.energy);
     }
 
-    // --- UI states ---
-    function renderAuthState() {
+    // ===== Tips (stable by day) =====
+    const tips = [
+      "Возьми многоразовую бутылку — это уменьшает пластиковые отходы и экономит деньги.",
+      "Выключай свет, выходя из комнаты — простая привычка с большим эффектом.",
+      "Сортируй мусор дома: пластик и бумагу отдельно — это реально увеличивает переработку.",
+      "Короткий душ вместо долгого — один из самых простых способов экономить воду.",
+      "Возьми шоппер/многоразовую сумку — меньше пакетов, меньше мусора."
+    ];
+    function setTipOfDay(){
+      const d = todayISO();
+      let seed = 0; for (let i=0;i<d.length;i++) seed += d.charCodeAt(i);
+      const el = $("tipBox");
+      if (el) el.textContent = tips[seed % tips.length];
+    }
+
+    // ===== Screens (SPA) =====
+    function setActiveScreen(name){
+      const screens = {
+        habits: $("screenHabits"),
+        stats: $("screenStats"),
+        forecast: $("screenForecast"),
+        goals: $("screenGoals"),
+        badges: $("screenBadges")
+      };
+
+      Object.keys(screens).forEach(k => {
+        screens[k].classList.toggle("active", k === name);
+      });
+
+      // tabs
+      $("tabHabits").classList.toggle("ghost", name !== "habits");
+      $("tabStats").classList.toggle("ghost", name !== "stats");
+      $("tabForecast").classList.toggle("ghost", name !== "forecast");
+      $("tabGoals").classList.toggle("ghost", name !== "goals");
+      $("tabBadges").classList.toggle("ghost", name !== "badges");
+
+      // refresh data by screen
+      if (name === "stats"){
+        render7Days();
+        renderLeaderboard();
+        renderRecommendations();
+      }
+      if (name === "forecast"){
+        renderForecast();
+      }
+      if (name === "goals"){
+        renderGoals();
+      }
+      if (name === "badges"){
+        renderBadges();
+      }
+    }
+
+    // ===== UI helpers =====
+    function hideResult(){
+      const r = $("result");
+      if (r){ r.style.display="none"; r.innerHTML=""; }
+    }
+
+    function updateStats(){
+      const c = readChecks();
+      $("statWater").textContent   = (c.water ? 6 : 0) + " л";
+      $("statPlastic").textContent = (c.plastic ? 1 : 0) + " шт";
+      $("statEnergy").textContent  = (c.energy ? 0.5 : 0) + " кВт⋅ч";
+      $("statRecycle").textContent = c.recycle ? "Да" : "Нет";
+    }
+
+    // ===== Auth =====
+    function renderAuthState(){
       const email = getCurrentUser();
       const loggedIn = Boolean(email);
 
       show($("authCard"), !loggedIn);
-      show($("appGrid"), loggedIn);
+      show($("appRoot"), loggedIn);
       show($("logoutBtn"), loggedIn);
+      show($("mobileBar"), loggedIn);
 
       $("userPill").textContent = loggedIn ? email : "Гость";
-      setText("authMsg", "");
-      setText("appMsg", "");
+      setText("authMsg","");
+      setText("appMsg","");
       hideResult();
+
+      if (loggedIn){
+        const savedDay = localStorage.getItem(SEL_DAY_KEY) || todayISO();
+        setSelectedDay(savedDay);
+        loadDayToUI();
+        setTipOfDay();
+        setActiveScreen("habits");
+      }
     }
 
-    function hideResult() {
-      const r = $("result");
-      if (r) { r.style.display = "none"; r.innerHTML = ""; }
-    }
-
-    function resetChecks() {
-      ["water","plastic","recycle","energy"].forEach(id => {
-        const el = $(id);
-        if (el) el.checked = false;
-      });
-      updateStats();
-      hideResult();
-      setText("appMsg", "");
-    }
-
-    // --- logic ---
-    function loginOrSignup() {
-      setText("authMsg", "");
+    function loginOrSignup(){
+      setText("authMsg","");
 
       const email = ($("email").value || "").trim().toLowerCase();
       const pass  = ($("password").value || "").trim();
 
-      if (!email || !pass) { setText("authMsg", "Введите email и пароль"); return; }
-      if (pass.length < 4) { setText("authMsg", "Пароль слишком короткий (мин. 4)"); return; }
-      if (!email.includes("@")) { setText("authMsg", "Email выглядит неверно"); return; }
+      if (!email || !pass){ setText("authMsg","Введите email и пароль"); return; }
+      if (!email.includes("@")){ setText("authMsg","Email выглядит неверно"); return; }
+      if (pass.length < 4){ setText("authMsg","Пароль слишком короткий (мин. 4)"); return; }
 
       const users = getUsers();
-
-      if (!users[email]) {
-        // регистрация
-        users[email] = pass;
-        saveUsers(users);
-      }
-
-      if (users[email] !== pass) {
-        setText("authMsg", "Неверный пароль");
-        return;
-      }
+      if (!users[email]){ users[email] = pass; saveUsers(users); }
+      if (users[email] !== pass){ setText("authMsg","Неверный пароль"); return; }
 
       setCurrentUser(email);
       renderAuthState();
     }
 
-    function demoLogin() {
+    function demoLogin(){
       const users = getUsers();
       const email = "demo@ecohabit.kz";
-      if (!users[email]) { users[email] = "demo"; saveUsers(users); }
+      if (!users[email]){ users[email] = "demo"; saveUsers(users); }
       setCurrentUser(email);
       renderAuthState();
     }
 
-    function logout() {
+    function logout(){
       clearCurrentUser();
       renderAuthState();
     }
 
-    function updateStats() {
-      const w = $("water")?.checked;
-      const p = $("plastic")?.checked;
-      const r = $("recycle")?.checked;
-      const e = $("energy")?.checked;
+    // ===== Day load/save =====
+    function loadDayToUI(){
+      const email = getCurrentUser();
+      if (!email) return;
 
-      $("statWater").textContent = (w ? 6 : 0) + " л";
-      $("statPlastic").textContent = (p ? 1 : 0) + " шт";
-      $("statEnergy").textContent = (e ? 0.5 : 0) + " кВт⋅ч";
-      $("statRecycle").textContent = r ? "Да" : "Нет";
+      const day = getSelectedDay();
+      const entries = getEntries(email);
+      const dayEntry = entries[day] || null;
+
+      writeChecks(dayEntry);
+      updateStats();
+      hideResult();
+      setText("appMsg","");
     }
 
-    function calculate() {
-      setText("appMsg", "");
-      const w = $("water")?.checked;
-      const p = $("plastic")?.checked;
-      const r = $("recycle")?.checked;
-      const e = $("energy")?.checked;
+    function persistSelectedDay(){
+      const email = getCurrentUser();
+      if (!email) return;
 
-      if (!w && !p && !r && !e) {
-        setText("appMsg", "Отметь хотя бы одну привычку 🙂");
+      const day = getSelectedDay();
+      const entries = getEntries(email);
+      entries[day] = { ...readChecks(), savedAt: new Date().toISOString() };
+
+      // keep storage tidy (optional)
+      const cutoff = addDaysISO(todayISO(), -90);
+      Object.keys(entries).forEach(k => { if (k < cutoff) delete entries[k]; });
+
+      saveEntries(email, entries);
+    }
+
+    function calculateAndSave(){
+      setText("appMsg","");
+      persistSelectedDay();
+
+      const day = getSelectedDay();
+      const c = readChecks();
+
+      if (!c.water && !c.plastic && !c.recycle && !c.energy){
+        setText("appMsg","Отмечено 0 действий. Можно выбрать другую дату и заполнить 🙂");
         hideResult();
         return;
       }
 
-      let html = "<h3>🌍 Твой эффект сегодня</h3><ul>";
-      if (w) html += "<li>💧 −6 литров воды</li>";
-      if (p) html += "<li>🧴 −1 пластиковая бутылка</li>";
-      if (r) html += "<li>♻️ Сортировка — меньше отходов на свалках</li>";
-      if (e) html += "<li>⚡ −0.5 кВт⋅ч энергии</li>";
-      html += "</ul><p><b class='ok'>Ты реально помогаешь планете 💚</b></p>";
+      let html = `<h3>🌍 Эффект за ${day}</h3><ul>`;
+      if (c.water)   html += "<li>💧 −6 литров воды</li>";
+      if (c.plastic) html += "<li>🧴 −1 пластиковая бутылка</li>";
+      if (c.recycle) html += "<li>♻️ сортировка → меньше отходов на полигонах</li>";
+      if (c.energy)  html += "<li>⚡ −0.5 кВт⋅ч энергии</li>";
+      html += `</ul><p class="ok">Отлично! Маленькие шаги каждый день меняют поведение 💚</p>`;
 
       const res = $("result");
       res.innerHTML = html;
       res.style.display = "block";
     }
 
-    // --- init safely after DOM loaded ---
+    function resetForDay(){
+      ["water","plastic","recycle","energy"].forEach(id => { if($(id)) $(id).checked=false; });
+      updateStats();
+      hideResult();
+      persistSelectedDay();
+      setText("appMsg","Сброшено и сохранено для выбранной даты.");
+    }
+
+    // ===== 7 days helpers =====
+    function getLast7DaysList(baseISO){
+      const out = [];
+      for (let i=6;i>=0;i--) out.push(addDaysISO(baseISO, -i));
+      return out;
+    }
+
+    function weekCounts(email){
+      const entries = getEntries(email);
+      const list = getLast7DaysList(todayISO());
+
+      let waterDays=0, plasticDays=0, recycleDays=0, energyDays=0, activeDays=0, marks=0;
+
+      list.forEach(day => {
+        const e = entries[day] || null;
+        if (!e) return;
+
+        const w = Boolean(e.water);
+        const p = Boolean(e.plastic);
+        const r = Boolean(e.recycle);
+        const en = Boolean(e.energy);
+
+        const any = w || p || r || en;
+        if (any) activeDays++;
+
+        if (w){ waterDays++; marks++; }
+        if (p){ plasticDays++; marks++; }
+        if (r){ recycleDays++; marks++; }
+        if (en){ energyDays++; marks++; }
+      });
+
+      // demo "effects"
+      const waterL = waterDays * 6;
+      const plastic = plasticDays * 1;
+      const energyKwh = energyDays * 0.5;
+
+      return { waterDays, plasticDays, recycleDays, energyDays, activeDays, marks, waterL, plastic, energyKwh };
+    }
+
+    // ===== Render: Stats =====
+    function render7Days(){
+      const email = getCurrentUser();
+      if (!email) return;
+
+      const entries = getEntries(email);
+      const list = getLast7DaysList(todayISO());
+
+      // rows
+      const table = $("weekTable");
+      if (table){
+        Array.from(table.querySelectorAll(".trow.data")).forEach(n => n.remove());
+        list.forEach(day => {
+          const d = entries[day] || null;
+          const w = Boolean(d?.water);
+          const p = Boolean(d?.plastic);
+          const r = Boolean(d?.recycle);
+          const e = Boolean(d?.energy);
+
+          const row = document.createElement("div");
+          row.className = "trow data";
+
+          const cellDate = document.createElement("div");
+          cellDate.textContent = day.slice(5);
+          cellDate.style.fontWeight = "950";
+
+          const c1 = document.createElement("div");
+          c1.innerHTML = `<span class="badge ${w ? "yes" : "no"}">${w ? "Да" : "—"}</span>`;
+          const c2 = document.createElement("div");
+          c2.innerHTML = `<span class="badge ${p ? "yes" : "no"}">${p ? "Да" : "—"}</span>`;
+          const c3 = document.createElement("div");
+          c3.innerHTML = `<span class="badge ${r ? "yes" : "no"}">${r ? "Да" : "—"}</span>`;
+          const c4 = document.createElement("div");
+          c4.innerHTML = `<span class="badge ${e ? "yes" : "no"}">${e ? "Да" : "—"}</span>`;
+
+          row.appendChild(cellDate);
+          row.appendChild(c1);
+          row.appendChild(c2);
+          row.appendChild(c3);
+          row.appendChild(c4);
+          table.appendChild(row);
+        });
+      }
+
+      const t = weekCounts(email);
+      $("weekSummary").textContent = `${t.marks} отметок`;
+      $("weekHint").innerHTML =
+        `💧 ${t.waterL} л • 🧴 ${t.plastic} шт • ⚡ ${t.energyKwh.toFixed(1)} кВт⋅ч • ♻️ ${t.recycleDays}/7 дней`;
+    }
+
+    // ===== Render: Leaderboard =====
+    function calculateUserScore(email){
+      const entries = getEntries(email);
+      const list = getLast7DaysList(todayISO());
+      let score = 0;
+
+      list.forEach(day => {
+        const d = entries[day] || null;
+        if (!d) return;
+        if (d.water) score++;
+        if (d.plastic) score++;
+        if (d.recycle) score++;
+        if (d.energy) score++;
+      });
+      return score;
+    }
+
+    function medalForRank(i){
+      if (i === 0) return "🥇";
+      if (i === 1) return "🥈";
+      if (i === 2) return "🥉";
+      return "🌱";
+    }
+
+    function renderLeaderboard(){
+      const board = $("leaderboard");
+      if (!board) return;
+
+      const users = getUsers();
+
+      // demo opponents (for hackathon feel)
+      const demo = ["green.team@school.kz","eco.club@school.kz","class.9a@school.kz"];
+      demo.forEach(e => { if (!users[e]) users[e] = "demo"; });
+      saveUsers(users);
+
+      const ranking = Object.keys(getUsers()).map(email => ({
+        email,
+        score: calculateUserScore(email)
+      })).sort((a,b) => b.score - a.score);
+
+      board.innerHTML = "";
+
+      ranking.slice(0,10).forEach((u, i) => {
+        const li = document.createElement("li");
+
+        const left = document.createElement("div");
+        left.style.display = "flex";
+        left.style.gap = "10px";
+        left.style.alignItems = "center";
+        left.style.minWidth = "0";
+
+        const m = document.createElement("span");
+        m.className = "medal";
+        m.textContent = medalForRank(i);
+
+        const name = document.createElement("div");
+        name.style.minWidth = "0";
+        name.innerHTML = `<b>${i+1}.</b> ${u.email}<br><small>за 7 дней</small>`;
+
+        left.appendChild(m);
+        left.appendChild(name);
+
+        const right = document.createElement("div");
+        right.style.fontWeight = "950";
+        right.textContent = `${u.score} балл(ов)`;
+
+        li.appendChild(left);
+        li.appendChild(right);
+        board.appendChild(li);
+      });
+    }
+
+    // ===== Forecast =====
+    function renderForecast(){
+      const email = getCurrentUser();
+      const box = $("forecastBox");
+      const summary = $("forecastSummary");
+      if (!email || !box || !summary) return;
+
+      const t = weekCounts(email);
+
+      const avgWaterL = t.waterL / 7;
+      const avgPlastic = t.plastic / 7;
+      const avgEnergy = t.energyKwh / 7;
+      const avgRecycleDays = t.recycleDays / 7;
+
+      const m = 30;
+      const y = 365;
+
+      const monthWater = avgWaterL * m;
+      const yearWater  = avgWaterL * y;
+
+      const monthPlastic = avgPlastic * m;
+      const yearPlastic  = avgPlastic * y;
+
+      const monthEnergy = avgEnergy * m;
+      const yearEnergy  = avgEnergy * y;
+
+      const monthRecycleDays = avgRecycleDays * m;
+      const yearRecycleDays  = avgRecycleDays * y;
+
+      // demo CO2 factor
+      const co2Factor = 0.4; // kg CO2 per 1 kWh (demo)
+      const monthCO2 = monthEnergy * co2Factor;
+      const yearCO2  = yearEnergy * co2Factor;
+
+      box.innerHTML = `
+        <b>За последние 7 дней:</b><br>
+        💧 ${t.waterL.toFixed(0)} л воды • 🧴 ${t.plastic.toFixed(0)} бутылок • ⚡ ${t.energyKwh.toFixed(1)} кВт⋅ч • ♻️ ${t.recycleDays} дней сортировки
+        <br><br>
+        <b>Если продолжать так же (прогноз):</b><br>
+        <b>30 дней:</b> 💧 ${monthWater.toFixed(0)} л • 🧴 ${monthPlastic.toFixed(0)} • ⚡ ${monthEnergy.toFixed(1)} кВт⋅ч • ♻️ ~${monthRecycleDays.toFixed(0)} дней<br>
+        <b>1 год:</b> 💧 ${yearWater.toFixed(0)} л • 🧴 ${yearPlastic.toFixed(0)} • ⚡ ${yearEnergy.toFixed(1)} кВт⋅ч • ♻️ ~${yearRecycleDays.toFixed(0)} дней
+        <br><br>
+        <b>Дополнительно:</b> условное снижение выбросов от энергии:
+        ~${monthCO2.toFixed(1)} кг CO₂/месяц, ~${yearCO2.toFixed(0)} кг CO₂/год
+      `;
+
+      // summary line
+      let line = "Продолжай в том же темпе.";
+      if (t.activeDays <= 1) line = "Начни с малого: цель — 2–3 активных дня в неделю.";
+      else if (t.activeDays <= 3) line = "Хороший старт: попробуй увеличить активные дни до 4+.";
+      else if (t.activeDays >= 5) line = "Супер! Ты почти на уровне устойчивой привычки.";
+
+      summary.textContent = line;
+    }
+
+    // ===== Recommendations (for stats screen) =====
+    function renderRecommendations(){
+      const email = getCurrentUser();
+      const box = $("recommendBox");
+      if (!email || !box) return;
+
+      const t = weekCounts(email);
+
+      // pick the weakest habit (days count)
+      const arr = [
+        { key:"water",   name:"💧 вода",   days:t.waterDays,   hint:"Попробуй: закрывай кран во время чистки зубов." },
+        { key:"plastic", name:"🧴 пластик",days:t.plasticDays, hint:"Возьми шоппер/бутылку — это самый простой шаг." },
+        { key:"recycle", name:"♻️ сортировка",days:t.recycleDays,hint:"Поставь 2 пакета: пластик отдельно, бумага отдельно." },
+        { key:"energy",  name:"⚡ энергия",days:t.energyDays,  hint:"Выключай свет/зарядки — привычка за 2 дня." }
+      ].sort((a,b)=>a.days - b.days);
+
+      const weakest = arr[0];
+
+      const targetActiveDays = 4;
+      const needDays = Math.max(0, targetActiveDays - t.activeDays);
+
+      let msg = `<b>Лучший шаг для роста:</b> усилить <b>${weakest.name}</b> (сейчас ${weakest.days}/7 дней).<br>`;
+      msg += `<b>Совет:</b> ${weakest.hint}<br><br>`;
+
+      if (needDays > 0) {
+        msg += `<b>Цель на неделю:</b> добавь ещё <b>${needDays}</b> активн. день(дней), чтобы выйти на ${targetActiveDays}/7.<br>`;
+      } else {
+        msg += `<b>Ты уже молодец:</b> активных дней ${t.activeDays}/7. Попробуй удержать результат и подняться в топе.<br>`;
+      }
+
+      box.innerHTML = msg;
+    }
+
+    // ===== Goals =====
+    function renderGoals(){
+      const email = getCurrentUser();
+      if (!email) return;
+
+      const t = weekCounts(email);
+
+      // update right stats
+      const a = $("activeDaysStat");
+      const r = $("recycleDaysStat");
+      const p = $("plasticDaysStat");
+      if (a) a.textContent = `${t.activeDays}/7`;
+      if (r) r.textContent = `${t.recycleDays}/7`;
+      if (p) p.textContent = `${t.plasticDays}/7`;
+
+      // goal text
+      const goalBox = $("goalBox");
+      if (!goalBox) return;
+
+      const goals = [
+        { ok: t.activeDays >= 4, label: "Активные дни", desc: `Сейчас: ${t.activeDays}/7 (цель 4+)` },
+        { ok: t.recycleDays >= 2, label: "Сортировка", desc: `Сейчас: ${t.recycleDays}/7 (цель 2+)` },
+        { ok: t.plasticDays >= 2, label: "Без пластика", desc: `Сейчас: ${t.plasticDays}/7 (цель 2+)` },
+      ];
+
+      const passed = goals.filter(g=>g.ok).length;
+
+      let html = `<b>Прогресс целей недели:</b><br><ul style="margin:8px 0 0; padding-left:18px;">`;
+      goals.forEach(g=>{
+        html += `<li>${g.ok ? "✅" : "⬜"} <b>${g.label}</b> — <span style="color:#9ca3af">${g.desc}</span></li>`;
+      });
+      html += `</ul><br>`;
+
+      if (passed === 3) {
+        html += `<b>🏆 Отлично!</b> Ты выполнил все цели недели. Попробуй удержать уровень и улучшить топ-лист.`;
+      } else if (passed === 2) {
+        html += `<b>🔥 Почти!</b> Осталась 1 цель — добей её, и будет полный комплект.`;
+      } else if (passed === 1) {
+        html += `<b>👍 Хороший старт.</b> Добавь ещё 1–2 действия в разные дни — это быстрее закрепляет привычку.`;
+      } else {
+        html += `<b>🌱 Начинай с малого.</b> Выбери 1 простую цель (например, вода 2 дня подряд) и закрепи её.`;
+      }
+
+      goalBox.innerHTML = html;
+    }
+
+    // ===== Badges =====
+    function computeBadges(email){
+      const entries = getEntries(email);
+      const allDays = Object.keys(entries).sort();
+      const t = weekCounts(email);
+
+      // streak (consecutive active days) ending today
+      let streak = 0;
+      for (let i=0;i<60;i++){
+        const day = addDaysISO(todayISO(), -i);
+        const e = entries[day];
+        const any = e && (e.water || e.plastic || e.recycle || e.energy);
+        if (any) streak++;
+        else break;
+      }
+
+      // total marks across all time
+      let totalMarks = 0;
+      for (const day of allDays){
+        const e = entries[day];
+        if (!e) continue;
+        if (e.water) totalMarks++;
+        if (e.plastic) totalMarks++;
+        if (e.recycle) totalMarks++;
+        if (e.energy) totalMarks++;
+      }
+
+      const badges = [
+        { id:"first",  icon:"🌱", name:"Первый шаг", desc:"Отметить любое действие хотя бы 1 раз.", unlocked: totalMarks >= 1 },
+        { id:"streak3",icon:"🔥", name:"Серия 3 дня", desc:"3 активных дня подряд.", unlocked: streak >= 3 },
+        { id:"streak7",icon:"💚", name:"Серия 7 дней", desc:"7 активных дней подряд.", unlocked: streak >= 7 },
+        { id:"recycle2",icon:"♻️", name:"Сортирую регулярно", desc:"2+ дня сортировки за неделю.", unlocked: t.recycleDays >= 2 },
+        { id:"plastic2",icon:"🧴", name:"Минус пластик", desc:"2+ дня без пластика за неделю.", unlocked: t.plasticDays >= 2 },
+        { id:"active4",icon:"📅", name:"Стабильная неделя", desc:"4+ активных дня за неделю.", unlocked: t.activeDays >= 4 },
+        { id:"marks20",icon:"🏅", name:"20 действий", desc:"Суммарно 20+ отмеченных действий.", unlocked: totalMarks >= 20 },
+        { id:"marks50",icon:"🏆", name:"50 действий", desc:"Суммарно 50+ отмеченных действий.", unlocked: totalMarks >= 50 },
+      ];
+
+      // status text
+      let status = "Начинающий";
+      if (totalMarks >= 50 || streak >= 7) status = "Мастер привычек";
+      else if (totalMarks >= 20 || t.activeDays >= 5) status = "Эко-герой";
+      else if (totalMarks >= 5 || t.activeDays >= 3) status = "На хорошем пути";
+
+      return { badges, streak, totalMarks, status, weekActive: t.activeDays };
+    }
+
+    function renderBadges(){
+      const email = getCurrentUser();
+      if (!email) return;
+
+      const grid = $("badgesGrid");
+      const statusBox = $("statusBox");
+      if (!grid || !statusBox) return;
+
+      const meta = computeBadges(email);
+      grid.innerHTML = "";
+
+      meta.badges.forEach(b=>{
+        const card = document.createElement("div");
+        card.className = "badgeCard" + (b.unlocked ? "" : " locked");
+        card.innerHTML = `
+          <div class="badgeIcon">${b.icon}</div>
+          <div>
+            <div class="name">${b.unlocked ? b.name : "🔒 " + b.name}</div>
+            <div class="desc">${b.desc}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      statusBox.innerHTML = `
+        <b>Статус:</b> ${meta.status}<br>
+        <b>Серия (streak):</b> ${meta.streak} дн.<br>
+        <b>Всего действий:</b> ${meta.totalMarks}<br>
+        <b>Активные дни за неделю:</b> ${meta.weekActive}/7
+      `;
+    }
+
+    // ===== Init =====
     window.addEventListener("DOMContentLoaded", () => {
-      // wire buttons
+      // auth
       $("loginBtn").addEventListener("click", loginOrSignup);
       $("demoBtn").addEventListener("click", demoLogin);
       $("logoutBtn").addEventListener("click", logout);
 
-      $("calcBtn").addEventListener("click", calculate);
-      $("resetBtn").addEventListener("click", resetChecks);
+      // tabs
+      $("tabHabits").addEventListener("click", () => setActiveScreen("habits"));
+      $("tabStats").addEventListener("click",  () => setActiveScreen("stats"));
+      $("tabForecast").addEventListener("click", () => setActiveScreen("forecast"));
+      $("tabGoals").addEventListener("click", () => setActiveScreen("goals"));
+      $("tabBadges").addEventListener("click", () => setActiveScreen("badges"));
 
-      // update stats live
-      ["water","plastic","recycle","energy"].forEach(id => {
-        $(id).addEventListener("change", updateStats);
+      // internal nav buttons
+      $("goStatsBtn").addEventListener("click", () => setActiveScreen("stats"));
+      $("backHabitsBtn").addEventListener("click", () => setActiveScreen("habits"));
+      $("goForecastBtn").addEventListener("click", () => setActiveScreen("forecast"));
+      $("backToStatsBtn").addEventListener("click", () => setActiveScreen("stats"));
+      $("goBadgesBtn").addEventListener("click", () => setActiveScreen("badges"));
+      $("goBadgesBtn2").addEventListener("click", () => setActiveScreen("badges"));
+      $("goStatsBtn2").addEventListener("click", () => setActiveScreen("stats"));
+      $("goHabitsBtn2").addEventListener("click", () => setActiveScreen("habits"));
+      $("goHabitsBtn3").addEventListener("click", () => setActiveScreen("habits"));
+      $("goGoalsBtn").addEventListener("click", () => setActiveScreen("goals"));
+      $("goGoalsBtn2").addEventListener("click", () => setActiveScreen("goals"));
+
+      // actions
+      $("saveBtn").addEventListener("click", () => { calculateAndSave(); });
+      $("resetBtn").addEventListener("click", () => { resetForDay(); });
+      $("saveBtnM").addEventListener("click", () => { calculateAndSave(); });
+      $("resetBtnM").addEventListener("click", () => { resetForDay(); });
+
+      // date
+      $("todayBtn").addEventListener("click", () => {
+        const t = todayISO();
+        setSelectedDay(t);
+        localStorage.setItem(SEL_DAY_KEY, t);
+        loadDayToUI();
       });
 
-      // initial render
+      $("dayInput").addEventListener("change", () => {
+        localStorage.setItem(SEL_DAY_KEY, $("dayInput").value);
+        loadDayToUI();
+      });
+
+      // autosave on checkbox change
+      ["water","plastic","recycle","energy"].forEach(id => {
+        $(id).addEventListener("change", () => {
+          updateStats();
+          persistSelectedDay();
+        });
+      });
+
+      // initial UI
       renderAuthState();
+      setTipOfDay();
       updateStats();
+
+      // if already logged in, preload other screens data
+      if (getCurrentUser()){
+        render7Days();
+        renderLeaderboard();
+        renderForecast();
+        renderRecommendations();
+        renderGoals();
+        renderBadges();
+      }
     });
   </script>
 </body>
